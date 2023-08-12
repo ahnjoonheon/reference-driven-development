@@ -1,0 +1,92 @@
+datasource db {
+  provider = "mysql"
+  url      = env("mariadb://localhost:3306/ourdiary?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false")
+}
+
+model Menu {
+  meun_id   Int        @id @default(autoincrement())
+  name      String
+  path      String
+  // icon      String
+  children  Menu[]     @relation("MenuToMenu")
+  parent_id Int?
+  parent    Menu?      @relation("MenuToMenu", fields: [parent_id], references: [meun_id])
+  status    Menustatus @default(DISABLED)
+  Post      Post[]
+}
+
+enum Menustatus {
+  ENABLED
+  DISABLED
+}
+
+model Comment {
+  comment_id Int           @id @default(autoincrement())
+  content    String
+  status     Commentstatus @default(ENABLED)
+  created    DateTime      @default(now())
+  updated    DateTime      @default(now())
+  user_id    Int
+  user       User          @relation(fields: [user_id], references: [user_id])
+  post_id    Int
+  post       Post          @relation(fields: [post_id], references: [post_id])
+}
+
+enum Commentstatus {
+  ENABLED
+  DISABLED
+}
+
+model Post {
+  post_id  Int         @id @default(autoincrement())
+  title    String
+  content  String
+  status   Poststatus  @default(DRAFT)
+  created  DateTime    @default(now())
+  updated  DateTime    @default(now())
+  user_id  Int
+  user     User        @relation(fields: [user_id], references: [user_id])
+  menu_id  Int
+  menu     Menu        @relation(fields: [menu_id], references: [meun_id])
+  tags     Tag[]       @relation("PostToTag")
+  postTags PostToTag[]
+  comments Comment[]
+}
+
+enum Poststatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Tag {
+  tag_id   Int         @id @default(autoincrement())
+  name     String
+  posts    Post[]      @relation("PostToTag")
+  postTags PostToTag[]
+}
+
+model PostToTag {
+  post_id Int
+  tag_id  Int
+  post    Post @relation(fields: [post_id], references: [post_id])
+  tag     Tag  @relation(fields: [tag_id], references: [tag_id])
+
+  @@id([post_id, tag_id])
+}
+
+model User {
+  user_id  Int        @id @default(autoincrement())
+  name     String
+  email    String     @unique
+  password String
+  status   Userstatus @default(DISABLED)
+  created  DateTime   @default(now())
+  updated  DateTime   @default(now())
+  posts    Post[]
+  comments Comment[]
+}
+
+enum Userstatus {
+  ENABLED
+  DISABLED
+}

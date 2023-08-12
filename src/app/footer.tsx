@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 export default function Footer() {
     return (
@@ -7,13 +8,21 @@ export default function Footer() {
             <div className="container mx-auto px-4">
                 <div className="sm:flex justify-between">
                     <div className="text-center sm:text-left py-3">
-                        <p className="text-sm">© 2023 - RDD</p>
-                        <p className="text-sm">contact@example.com</p>
-                    </div>
-                    <div className="text-center sm:text-left py-3">
-                        <div>
-                            <a href="https://github.com/ahnjoonheon/reference-driven-development"><image href="/facebook.png" />Github</a>
+                        <p className="font-bold text-lg">CONTACT</p>
+                        <div className="flex items-center">
+                            <Image src="/email.svg" alt="Email" width={20} height={20}/>
+                            <p className="text-sm font-semibold ml-1">
+                                universal304015@gmail.com
+                            </p>
                         </div>
+                        <Link href="https://github.com/aj172019/reference-driven-development">
+                            <div className="flex items-center">
+                                <Image src="/github.svg" alt="Github" width={20} height={20}/>
+                                <p className="text-sm font-semibold ml-1">
+                                    reference-driven-development
+                                </p>
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </div>

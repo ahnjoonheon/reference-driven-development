@@ -1,0 +1,31 @@
+/* styles.css or your tailwind.css file */
+
+/* Default truncate to 2 lines */
+.multi-line-truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.multi-line-truncate-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Medium screens truncate to 3 lines */
+@media (min-width: 768px) {
+    .multi-line-truncate-3 {
+        -webkit-line-clamp: 3;
+    }
+}
+
+/* Large screens show all text */
+@media (min-width: 1024px) {
+    .multi-line-truncate-none {
+        -webkit-line-clamp: none;
+        overflow: visible;
+    }
+}
